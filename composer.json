@@ -1,0 +1,40 @@
+{
+    "name": "laravel-notification-channels/botman-driver",
+    "description": "Use botman as laravel notification service",
+    "homepage": "https://github.com/laravel-notification-channels/botman-driver",
+    "license": "MIT",
+    "require": {
+        "php": ">=7",
+        "illuminate/notifications": "5.*|^6.0",
+        "illuminate/support": "5.*|^6.0",
+        "illuminate/events": "5.*|^6.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^0.9.5",
+        "phpunit/phpunit": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "NotificationChannels\\BotmanDriver\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NotificationChannels\\BotmanDriver\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NotificationChannels\\BotmanDriver\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
