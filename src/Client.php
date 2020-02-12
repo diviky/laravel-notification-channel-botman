@@ -2,7 +2,11 @@
 
 namespace NotificationChannels\BotmanDriver;
 
+use BotMan\BotMan\Drivers\DriverManager;
+use BotMan\BotMan\Messages\Conversations\Conversation;
+use Closure;
 use GuzzleHttp\Client as Guzzle;
+use NotificationChannels\BotmanDriver\ClosureConversation;
 
 class Client
 {
@@ -54,19 +58,39 @@ class Client
      * @param Message $message
      * @param string  $to
      *
-     * @throws CouldNotSendNotification
-     *
      * @return \GuzzleHttp\Client
      */
     protected function sendMessage(MessageAbstract $message, $to)
     {
         $payload    = $message->getPayload();
-        $recipients = $to ?: $message->getTo();
+        $recipients = $message->getTo() ?: $to;
         $driver     = $message->getDriverByName();
-        $params     = $this->getParams();
+
+        $botman = $this->loadBotMan($driver);
+
+        $recipients = $botman->getDriver()->getRecipients($message, $recipients);
+
+        if ($payload instanceof Closure) {
+            return $botman->startConversation(new ClosureConversation($payload), $recipients, $driver);
+        }
+
+        if ($payload instanceof Conversation) {
+            return $botman->startConversation($payload->setMessage($message), $recipients, $driver);
+        }
+
+        $params = $message->getParams();
+
+        $botman->say($payload, $recipients, $driver, $params);
+
+        return $botman;
+    }
+
+    protected function loadBotMan($driver, $config = [])
+    {
+        DriverManager::loadDriver($driver);
 
         $botman = app('botman');
-        $botman->say('Microsoft Teams !', $recipients, $driver, $params);
+        $botman->loadDriver($driver);
 
         return $botman;
     }

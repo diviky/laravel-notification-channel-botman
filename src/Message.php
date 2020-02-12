@@ -11,7 +11,7 @@ class Message extends MessageAbstract
 
     public function setPayload($payload)
     {
-        $this->payload = (array) $payload;
+        $this->payload = $payload;
 
         return $this;
     }

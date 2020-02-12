@@ -44,7 +44,7 @@ abstract class ChannelAbstract
     public function send($notifiable, Notification $notification)
     {
         try {
-            $to     = $this->getTo($notifiable);
+            $to     = $this->getTo($notifiable, $notification);
             $method = 'to' . \ucfirst($this->channel);
 
             $message = $notification->{$method}($notifiable);
@@ -64,12 +64,10 @@ abstract class ChannelAbstract
             }
 
         } catch (\Exception $exception) {
-            $event = new NotificationFailed(
-                $notifiable,
-                $notification,
-                $this->channel,
-                ['message' => $exception->getMessage(), 'exception' => $exception]
-            );
+            $event = new NotificationFailed($notifiable, $notification, $this->channel, [
+                'message'   => $exception->getMessage(),
+                'exception' => $exception,
+            ]);
 
             if (\function_exists('event')) { // Use event helper when possible to add Lumen support
                 event($event);
@@ -86,14 +84,18 @@ abstract class ChannelAbstract
      *
      * @return mixed
      */
-    protected function getTo($notifiable)
+    protected function getTo($notifiable, $notification)
     {
-        if ($notifiable->routeNotificationFor($this->channel)) {
-            return $notifiable->routeNotificationFor($this->channel);
+        if ($notifiable->routeNotificationFor($this->channel, $notification)) {
+            return $notifiable->routeNotificationFor($this->channel, $notification);
         }
 
         if (isset($notifiable->recipients)) {
             return $notifiable->recipients;
+        }
+
+        if (isset($notifiable->driver_id)) {
+            return $notifiable->driver_id;
         }
 
         return false;

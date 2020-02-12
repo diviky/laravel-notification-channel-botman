@@ -14,14 +14,14 @@ abstract class MessageAbstract
     public $payload;
 
     /**
-     * The phone number the message should be sent driver.
+     * The botman driver name.
      *
      * @var string
      */
     public $driver;
 
     /**
-     * The phone number the message should be sent to.
+     * The recipients the message should be sent to.
      *
      * @var string
      */
@@ -32,8 +32,11 @@ abstract class MessageAbstract
      */
     public $params = [];
 
+    public $user = [];
+
     protected $drivers = [
-        'botframework' => BotFrameworkDriver::class,
+        'botframework'      => BotFrameworkDriver::class,
+        'botframeworkimage' => BotFrameworkDriver::class,
     ];
 
     /**
@@ -59,7 +62,7 @@ abstract class MessageAbstract
     }
 
     /**
-     * Set the phone number the message should be sent driver.
+     * The botman driver name.
      *
      * @param string $driver
      *
@@ -73,7 +76,7 @@ abstract class MessageAbstract
     }
 
     /**
-     * Set the phone number the message should be sent to.
+     * Set the recipients the message should be sent to.
      *
      * @param string $driver
      * @param mixed  $to
@@ -99,11 +102,15 @@ abstract class MessageAbstract
 
     public function getDriverByName()
     {
-        return $this->drivers[$this->driver] ?: $this->driver;
+        if (is_string($this->driver)) {
+            return $this->drivers[strtolower($this->driver)];
+        }
+
+        return $this->driver;
     }
 
     /**
-     * Get the phone number the message should be sent to.
+     * Get the recipients the message should be sent to.
      *
      * @return string
      */
@@ -164,6 +171,26 @@ abstract class MessageAbstract
     public function setParams(array $params)
     {
         $this->params = \array_merge($this->params, $params);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of user
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set the value of user
+     *
+     * @return  self
+     */
+    public function setUser($user)
+    {
+        $this->user = new User($user);
 
         return $this;
     }
