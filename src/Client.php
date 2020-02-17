@@ -67,8 +67,11 @@ class Client
         $driver     = $message->getDriverByName();
 
         $botman = $this->loadBotMan($driver);
+        $driver = $botman->getDriver();
 
-        $recipients = $botman->getDriver()->getRecipients($message, $recipients);
+        if (method_exists($driver, 'getRecipients')) {
+            $recipients = $driver->getRecipients($message, $recipients);
+        }
 
         if ($payload instanceof Closure) {
             return $botman->startConversation(new ClosureConversation($payload), $recipients, $driver);

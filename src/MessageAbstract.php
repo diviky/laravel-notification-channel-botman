@@ -3,6 +3,7 @@
 namespace NotificationChannels\BotmanDriver;
 
 use NotificationChannels\BotmanDriver\Drivers\BotFrameworkDriver;
+use NotificationChannels\BotmanDriver\Drivers\MessengerPeopleDriver;
 
 abstract class MessageAbstract
 {
@@ -37,6 +38,7 @@ abstract class MessageAbstract
     protected $drivers = [
         'botframework'      => BotFrameworkDriver::class,
         'botframeworkimage' => BotFrameworkDriver::class,
+        'messengerpeople'   => MessengerPeopleDriver::class,
     ];
 
     /**

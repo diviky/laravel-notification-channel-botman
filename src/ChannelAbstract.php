@@ -59,7 +59,7 @@ abstract class ChannelAbstract
 
             $response = $this->client->send($message, $to);
 
-            if ($response->getStatusCode() !== 200) {
+            if (!in_array($response->getStatusCode(), [200, 202])) {
                 throw Exceptions\CouldNotSendNotification::serviceRespondedWithAnError($response);
             }
 

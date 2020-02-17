@@ -44,4 +44,9 @@ class BotFrameworkDriver extends BotManBotFrameworkDriver
 
         return $responseData->id;
     }
+
+    public function buildServicePayload($message, $matchingMessage, $additionalParameters = [])
+    {
+        return parent::buildServicePayload($message, $matchingMessage, $additionalParameters);
+    }
 }
