@@ -35,6 +35,6 @@ class CouldNotSendNotification extends \Exception
     {
         $className = \get_class($message) ?: 'Unknown';
 
-        return new static($className . ' responded with an error: `' . $response->getBody()->getContents() . '`');
+        return new static($className . ' responded with an error: `' . $response->getContents() . '`');
     }
 }
