@@ -2,23 +2,23 @@
 
 ## Contents
 
-- [Installation](#installation)
-	- [Setting up your account](#setting-up-your-account)
-- [Usage](#usage)
-	- [Available Message methods](#available-message-methods)
-- [Changelog](#changelog)
-- [Testing](#testing)
-- [Security](#security)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
+-   [Installation](#installation)
+    -   [Setting up your account](#setting-up-your-account)
+-   [Usage](#usage)
+    -   [Available Message methods](#available-message-methods)
+-   [Changelog](#changelog)
+-   [Testing](#testing)
+-   [Security](#security)
+-   [Contributing](#contributing)
+-   [Credits](#credits)
+-   [License](#license)
 
 ## Installation
 
 You can install the package via composer:
 
-``` bash
-composer require laravel-notification-channels/messenger-people
+```bash
+composer require diviky/laravel-notification-channel-botman
 ```
 
 ### Setting up your account
@@ -29,7 +29,7 @@ Add your configuration to your `config/services.php`:
 // config/services.php
 ...
 'messengerpeople' => [
-    'client_id' => env('MP_CLIENT_ID'), 
+    'client_id' => env('MP_CLIENT_ID'),
     'client_secret' => env('MP_CLIENT_SECRET'),
     'uuid' => env('MP_UUID'),
 ],
@@ -40,7 +40,7 @@ Add your configuration to your `config/services.php`:
 
 Now you can use the channel in your `via()` method inside the notification:
 
-``` php
+```php
 use NotificationChannels\MessengerPeople\Channel;
 use NotificationChannels\MessengerPeople\Message;
 use Illuminate\Notifications\Notification;
@@ -71,9 +71,9 @@ public function routeNotificationForMobtexting()
 
 ### Available Message methods
 
-- `from('')`: Accepts a phone to use as the notification sender.
-- `text('')`: Accepts a string value for the notification body.
-- `to('')`: Accepts a string value for the notification to (over writes default).
+-   `from('')`: Accepts a phone to use as the notification sender.
+-   `text('')`: Accepts a string value for the notification body.
+-   `to('')`: Accepts a string value for the notification to (over writes default).
 
 ## Contributing
 
